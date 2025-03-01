@@ -84,7 +84,7 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
--- Set the python host program to the nvim venv so that packages can be installed in a single venv (flake8/pynvim/copilotchat requirements etc.)
+-- Set the python host program to the nvim venv so that packages can be installed in a single venv (flake8/pynvim etc.)
 -- https://neovim.io/doc/user/provider.html
 vim.g.python3_host_prog = '~/venvs/.nvim-venv/bin/python3'
 -- Also run these commands so that conform plugin can use these formatters:
@@ -813,12 +813,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -907,6 +907,7 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'copilot' },
         },
       }
     end,
@@ -1065,5 +1066,52 @@ require('lazy').setup({
   },
 })
 
+-- Added temporarily to list available snippets
+local list_snips = function()
+  local ft_list = require('luasnip').available()[vim.o.filetype]
+  local ft_snips = {}
+  for _, item in pairs(ft_list) do
+    ft_snips[item.trigger] = item.name
+  end
+  print(vim.inspect(ft_snips))
+end
+
+vim.api.nvim_create_user_command('SnipList', list_snips, {})
+
+vim.g.diagnostics_visible = true
+function _G.toggle_diagnostics()
+  if vim.g.diagnostics_visible then
+    vim.g.diagnostics_visible = false
+    vim.diagnostic.enable(false)
+  else
+    vim.g.diagnostics_visible = true
+    vim.diagnostic.enable()
+  end
+end
+
+vim.g.diagnostics_virtual_text_visible = true
+function _G.toggle_diagnostics_virtual_text()
+  if vim.g.diagnostics_virtual_text_visible then
+    vim.g.diagnostics_virtual_text_visible = false
+    vim.diagnostic.config { virtual_text = false }
+  else
+    vim.diagnostic.config { virtual_text = true }
+    vim.g.diagnostics_virtual_text_visible = true
+  end
+end
+
+vim.keymap.set({ 'n' }, '<leader>i', toggle_diagnostics, { desc = 'Toggle d[i]agnostics' })
+vim.keymap.set({ 'n' }, '<leader>I', toggle_diagnostics_virtual_text, { desc = 'Toggle d[I]agnostics virtual text' })
+
+-- Disable caps lock while vim is running
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  command = 'silent !setxkbmap -option caps:escape',
+})
+
+vim.api.nvim_create_autocmd('VimLeave', {
+  pattern = '*',
+  command = '!setxkbmap -option',
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
