@@ -1123,5 +1123,16 @@ vim.api.nvim_create_autocmd('VimLeave', {
   pattern = '*',
   command = '!setxkbmap -option',
 })
+-- Function to print the source of a diagnostic message
+function PrintDiagnosticSource()
+  local diagnostics = vim.diagnostic.get(0)
+  for _, diagnostic in ipairs(diagnostics) do
+    print('Line: ' .. diagnostic.lnum .. ' - ' .. diagnostic.end_lnum .. ' Source: ' .. (diagnostic.source or 'Unknown'))
+  end
+end
+
+-- Map the function to a keybinding for easy access
+vim.api.nvim_set_keymap('n', '<leader>dd', ':lua PrintDiagnosticSource()<CR>', { noremap = true, silent = true })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
