@@ -1123,6 +1123,7 @@ vim.api.nvim_create_autocmd('VimLeave', {
   pattern = '*',
   command = '!setxkbmap -option',
 })
+
 -- Function to print the source of a diagnostic message
 function PrintDiagnosticSource()
   local diagnostics = vim.diagnostic.get(0)
