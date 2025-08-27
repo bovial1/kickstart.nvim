@@ -84,9 +84,11 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
--- Set the python host program to the nvim venv so that packages can be installed in a single venv (flake8/pynvim etc.)
+-- 2025-08-27 - I have removed this section. The nvim-lint plugin will use flake8 available in the .venv. Just add a .flake8 file and gitignore it
+-- I believe this is only needed if running python remote plugins
 -- https://neovim.io/doc/user/provider.html
-vim.g.python3_host_prog = '~/venvs/nvim/bin/python3'
+-- vim.g.python3_host_prog = '~/venvs/.nvim-venv/bin/python3'
+--
 -- Also run these commands so that conform plugin can use these formatters:
 -- ln -s ~/venvs/nvim/bin/black ~/bin/black
 -- ln -s ~/venvs/nvim/bin/isort ~/bin/isort
@@ -796,10 +798,10 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        formatters = {
-          black = {
-            prepend_args = { '--line-length', '100' },
-          },
+      },
+      formatters = {
+        black = {
+          prepend_args = { '--line-length', '100' },
         },
       },
     },
