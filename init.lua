@@ -84,14 +84,20 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
--- 2025-08-27 - I have removed this section. The nvim-lint plugin will use flake8 available in the .venv. Just add a .flake8 file and gitignore it
+-- Create an nvim venv to install linters etc. in one place
+-- uv venv nvim --seed
+-- . nvim/bin/activate
+-- uv pip instsall flake8 black isort
+--
 -- I believe this is only needed if running python remote plugins
 -- https://neovim.io/doc/user/provider.html
--- vim.g.python3_host_prog = '~/venvs/.nvim-venv/bin/python3'
+-- vim.g.python3_host_prog = '~/venvs/nvim/bin/python3'
 --
 -- Also run these commands so that conform plugin can use these formatters:
 -- ln -s ~/venvs/nvim/bin/black ~/bin/black
 -- ln -s ~/venvs/nvim/bin/isort ~/bin/isort
+-- Run this to make flake8 available to all projects via the nvim-lint plugin. Just create a .flake8 config file in each venv and gitignore it.
+-- ln -s ~/venvs/nvim/bin/flake8 ~/bin/flake8
 
 -- Open file in same dir as current file
 vim.cmd 'cabbr <expr> %% expand("%:p:h")'
