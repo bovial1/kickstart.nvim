@@ -231,8 +231,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Terminal keymaps ]]
 -- Set it in all windows
--- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
--- -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
+-- vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
 -- vim.keymap.set({ 'n', 't' }, '<C-h>', [[<Cmd>wincmd h<CR>]])
 -- vim.keymap.set({ 'n', 't' }, '<C-j>', [[<Cmd>wincmd j<CR>]])
 -- -- This conflicts with <C-k> for LSP signature hover. Won't work if LSP is attached to buffer.
@@ -901,7 +901,7 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'copilot' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
           copilot = {
@@ -1212,3 +1212,5 @@ vim.api.nvim_set_keymap('n', '<leader>dd', ':lua PrintDiagnosticSource()<CR>', {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+vim.o.winborder = 'rounded'
