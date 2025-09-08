@@ -1207,6 +1207,18 @@ function PrintDiagnosticSource()
   end
 end
 
+vim.api.nvim_create_user_command('CopilotChatProject', function(opts)
+  -- Expand args to all files in the project
+  vim.cmd 'args **/*'
+
+  -- Open them silently so they're in the buffer list
+  vim.cmd 'silent! bufdo b#'
+
+  -- Start CopilotChat with #buffers context
+  local input = opts.args ~= '' and opts.args or 'Explain the project #buffers'
+  vim.cmd('CopilotChat ' .. input)
+end, { nargs = '*' })
+
 -- Map the function to a keybinding for easy access
 vim.api.nvim_set_keymap('n', '<leader>dd', ':lua PrintDiagnosticSource()<CR>', { noremap = true, silent = true })
 
