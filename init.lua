@@ -83,6 +83,10 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+--
+if vim.g.vscode then
+  return
+end
 
 -- Create an nvim venv to install linters etc. in one place
 -- uv venv nvim --seed
@@ -113,7 +117,6 @@ vim.opt.foldenable = false
 -- Use treesitter for folding
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
